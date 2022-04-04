@@ -1,21 +1,43 @@
 const API = [
     {
         id:1,
-        title: "Pagos mayores a 30 en finanzas", 
-        table: "finanzas",
-        columns: "id, user, payment, cash", 
-        key:"id", 
-        description:"Aquí va la descripción", 
-        query:"SELECT * FROM finanzas WHERE payment > 30"
+        title: "GLOBAL_FINANCES.GLOBAL_ORDERS", 
+        table: "GLOBAL_FINANCES.GLOBAL_ORDERS",
+        columns: "order_id, user, payment, cash", 
+        key:"order_id", 
+        description:"Cada Fila es cada orden realizada en la app y sus carácteristicas principales. Usuario, hora de creación, hora de cierre, tienda, valor del pedido entre otras, en total son 67 Columnas que describen la orden en terminos generales", 
+        query:"SELECT  COUNTRY, VERTICAL, COUNT(DISTINCT ORDER_ID) AS ORDERS ,SUM(GMV_USD) AS GMV_DOLARS FROM GLOBAL_FINANCES.GLOBAL_ORDERS WHERE DATE_ORDER_CREATED BETWEEN '2022-01-01' AND CURRENT_DATE AND COUNT_TO_GMV GROUP BY 1,2;",
+        tags: "orders,gmv,brand,prime,mz",
     },
     {
         id:2,
-        title: "Pagos menores a 1000 en marketing", 
-        table: "finanzasMarketing",
-        columns: "id, user, payment, money, cat", 
-        key:"id", 
-        description:"Aquí va la descripción", 
-        query:"SELECT * FROM finanzas WHERE payment < 1000"
+        title: "GLOBAL_FINANCES.TBL_DIM_GEOGRAPHY_T1", 
+        table: "GLOBAL_FINANCES.TBL_DIM_GEOGRAPHY_T1",
+        columns: "order_id, user, payment, cash", 
+        key:"SK_GEOGRAPHY", 
+        description:"Contiene la descripción de Cada Microzona activa en la app", 
+        query:"SELECT  CITY_NAME, COUNT(DISTINCT ORDER_ID) AS ORDERS ,SUM(GMV_USD) AS GMV_DOLARS FROM GLOBAL_FINANCES.GLOBAL_ORDERS O LEFT JOIN GLOBAL_FINANCES.TBL_DIM_GEOGRAPHY_T1 G ON O.MICROZONE_ID = G.MICROZONE_CODE      AND G.COUNTRY_INDEX=O.COUNTRY WHERE DATE_ORDER_CREATED BETWEEN '2022-01-01' AND CURRENT_DATE AND COUNT_TO_GMV GROUP BY 1;", 
+        tags: "orders,gmv,brand,prime,mz",
+    },
+    {
+        id:3,
+        title: "GLOBAL_GROWTH.USERS_PARAMETRS", 
+        table: "GLOBAL_GROWTH.USERS_PARAMETRS",
+        columns: "order_id, user, payment, cash", 
+        key:"USER_ID", 
+        description:"Cada fila describe las carácteristicas principes de todos los usuarios registrado en la app.", 
+        query:"SELECT PAIS, STATE_TURBO,TURBO_COVERAGE,COUNT(DISTINCT  USER_ID) AS USERS FROM global_growth.users_parameters GROUP BY 1,2,3;",
+        tags: "mz,city,country",
+    },
+    {
+        id:4,
+        title: "GLOBAL_FINANCES.GLOBAL_APPLICATION_USERS_V2", 
+        table: "GLOBAL_FINANCES.GLOBAL_APPLICATION_USERS_V2",
+        columns: "order_id, user, payment, cash", 
+        key:"ID", 
+        description:"Cada fila describe las características principales de todos los usuarios registrado en la app.", 
+        query:"SELECT COUNTRY, IS_STUDENT, HAS_CHILDREN, COUNT(DISTINCT ID)  AS USERS FROM GLOBAL_FINANCES.GLOBAL_APPLICATION_USERS_V2 GROUP BY 1,2,3;",
+        tags: "all_users,user_level,segmentation,quality",
     },
 ]
 
@@ -24,7 +46,7 @@ const formulario = document.querySelector('#formulario')
 
 let loadFinanzas = () =>{
     contenido.innerHTML = ""
-    const texto = formulario.value
+    const texto = formulario.value.toLowerCase()
 
     for(table of API){
         
@@ -32,7 +54,8 @@ let loadFinanzas = () =>{
         table.table.toLowerCase().indexOf(texto) !== -1 || 
         table.columns.toLowerCase().indexOf(texto) !== -1 || 
         table.description.toLowerCase().indexOf(texto) !== -1 ||
-        table.query.toLowerCase().indexOf(texto) !== -1 ){
+        table.query.toLowerCase().indexOf(texto) !== -1 ||
+        table.tags.toLowerCase().indexOf(texto) !== -1 ){
             contenido.innerHTML += `
             <div class="querys">
                 <h3>${table.title}</h3>
@@ -46,6 +69,8 @@ let loadFinanzas = () =>{
                             <div class="card card-body">
                                 ${table.description}
                                 <strong>Columns: </strong> ${table.columns}
+                                <strong>Primary Key: </strong> ${table.key}
+                                <strong>Tags: </strong> ${table.tags}
                             </div>
                         </div>
                     </div>
@@ -67,9 +92,6 @@ let loadFinanzas = () =>{
             `
         }
     }
-}
-let algo = () => {
-    console.log(formulario.value)
 }
 
 formulario.addEventListener('keyup', loadFinanzas);
