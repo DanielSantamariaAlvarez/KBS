@@ -6,7 +6,7 @@ const API = [
         columns: "order_id, user, payment, cash", 
         key:"order_id", 
         description:"Cada Fila es cada orden realizada en la app y sus carácteristicas principales. Usuario, hora de creación, hora de cierre, tienda, valor del pedido entre otras, en total son 67 Columnas que describen la orden en terminos generales", 
-        query:"SELECT  COUNTRY, VERTICAL, COUNT(DISTINCT ORDER_ID) AS ORDERS ,SUM(GMV_USD) AS GMV_DOLARS FROM GLOBAL_FINANCES.GLOBAL_ORDERS WHERE DATE_ORDER_CREATED BETWEEN '2022-01-01' AND CURRENT_DATE AND COUNT_TO_GMV GROUP BY 1,2;",
+        query:" <br> SELECT  COUNTRY, VERTICAL, COUNT(DISTINCT ORDER_ID) AS ORDERS ,SUM(GMV_USD) AS GMV_DOLARS <br> FROM GLOBAL_FINANCES.GLOBAL_ORDERS <br> WHERE DATE_ORDER_CREATED BETWEEN '2022-01-01' AND CURRENT_DATE AND COUNT_TO_GMV <br> GROUP BY 1,2;",
         tags: "orders,gmv,brand,prime,mz",
     },
     {
@@ -16,7 +16,7 @@ const API = [
         columns: "order_id, user, payment, cash", 
         key:"SK_GEOGRAPHY", 
         description:"Contiene la descripción de Cada Microzona activa en la app", 
-        query:"SELECT  CITY_NAME, COUNT(DISTINCT ORDER_ID) AS ORDERS ,SUM(GMV_USD) AS GMV_DOLARS FROM GLOBAL_FINANCES.GLOBAL_ORDERS O LEFT JOIN GLOBAL_FINANCES.TBL_DIM_GEOGRAPHY_T1 G ON O.MICROZONE_ID = G.MICROZONE_CODE      AND G.COUNTRY_INDEX=O.COUNTRY WHERE DATE_ORDER_CREATED BETWEEN '2022-01-01' AND CURRENT_DATE AND COUNT_TO_GMV GROUP BY 1;", 
+        query:" <br> SELECT  CITY_NAME, COUNT(DISTINCT ORDER_ID) AS ORDERS ,SUM(GMV_USD) AS GMV_DOLARS  <br> FROM GLOBAL_FINANCES.GLOBAL_ORDERS O LEFT JOIN GLOBAL_FINANCES.TBL_DIM_GEOGRAPHY_T1 G ON O.MICROZONE_ID = G.MICROZONE_CODE  <br> AND G.COUNTRY_INDEX=O.COUNTRY <br> WHERE DATE_ORDER_CREATED BETWEEN '2022-01-01' AND CURRENT_DATE AND COUNT_TO_GMV  <br> GROUP BY 1;", 
         tags: "orders,gmv,brand,prime,mz",
     },
     {
@@ -26,7 +26,7 @@ const API = [
         columns: "order_id, user, payment, cash", 
         key:"USER_ID", 
         description:"Cada fila describe las carácteristicas principes de todos los usuarios registrado en la app.", 
-        query:"SELECT PAIS, STATE_TURBO,TURBO_COVERAGE,COUNT(DISTINCT  USER_ID) AS USERS FROM global_growth.users_parameters GROUP BY 1,2,3;",
+        query:" <br> SELECT PAIS, STATE_TURBO,TURBO_COVERAGE,COUNT(DISTINCT  USER_ID) AS USERS <br> FROM global_growth.users_parameters  <br> GROUP BY 1,2,3;",
         tags: "mz,city,country",
     },
     {
@@ -36,7 +36,7 @@ const API = [
         columns: "order_id, user, payment, cash", 
         key:"ID", 
         description:"Cada fila describe las características principales de todos los usuarios registrado en la app.", 
-        query:"SELECT COUNTRY, IS_STUDENT, HAS_CHILDREN, COUNT(DISTINCT ID)  AS USERS FROM GLOBAL_FINANCES.GLOBAL_APPLICATION_USERS_V2 GROUP BY 1,2,3;",
+        query:" <br> SELECT COUNTRY, IS_STUDENT, HAS_CHILDREN, COUNT(DISTINCT ID)  AS USERS  <br> FROM GLOBAL_FINANCES.GLOBAL_APPLICATION_USERS_V2  <br> GROUP BY 1,2,3;",
         tags: "all_users,user_level,segmentation,quality",
     },
 ]
@@ -69,6 +69,7 @@ let loadFinanzas = () =>{
                             <div class="card card-body">
                                 ${table.description}
                                 <strong>Columns: </strong> ${table.columns}
+                                <strong>Number of Columns: </strong> ${table.columns.split(',').length}
                                 <strong>Primary Key: </strong> ${table.key}
                                 <strong>Tags: </strong> ${table.tags}
                             </div>
@@ -81,7 +82,7 @@ let loadFinanzas = () =>{
                         <div class="collapse multi-collapse" id="b${table.id}">
                             <div class="card card-body">
                                 <pre>
-        <code>
+        <code class="w-100">
             ${table.query}
         </code>
                                 </pre>
