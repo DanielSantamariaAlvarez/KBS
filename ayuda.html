@@ -41,30 +41,27 @@
     </nav>
 
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6 pt-5 text-center">
-                <h1 class="naranjat">RappiQuery</h1>
-                <span>(Sistema de conocimiento de bases de datos de Rappi)</span>
+        <div class="row ">
+            <div class="col-md-6 pt-5">
+                <h2 class="naranjat text-start">¿Cómo funciona RappiQuery?</h2>
             </div>
-            <div class="col-md-7 py-5">
-                <input type="text" id="formulario" class="form-control my-2">
-                <div class="form-check form-switch form-check-reverse">
-                    <input class="form-check-input" type="checkbox" id="stablas" >
-                    <label class="form-check-label" for="flexSwitchCheckReverse">Buscar solo en Tablas</label>
-                </div>
-                <div class="form-check form-switch form-check-reverse">
-                    <input class="form-check-input" type="checkbox" id="squerys">
-                    <label class="form-check-label" for="flexSwitchCheckReverse">Buscar solo en Querys</label>
-                </div>
-                <div class="form-check form-switch form-check-reverse">
-                    <input class="form-check-input" type="checkbox"id="sdescripcion">
-                    <label class="form-check-label" for="flexSwitchCheckReverse">Buscar solo en descripción</label>
-                </div>
-                <button class="btn btn-success mb-2 text-light" onclick="loadFinanzas()">Search</button>
+            <div class="col-md-10 py-5 text-start">
+                <p>RappiQuery Es un poderoso buscador donde puedes encontrar todas las consultas relacionadas con el área de Growth en Rappi.</p>
+                <img src="./assets/img/buscador.png" class="w-75" alt="">
+            </div>
+            <div class="col-md-10 py-5 text-start">
+                <p>Puedes realizar consultas por palabras clave. Así RappiQuerys buscará en toda su base de datos todas las querys que contengan aquellas palabras.</p>
+                <img src="./assets/img/busqueda1.png" class="w-75" alt="">
+            </div>
+            <div class="col-md-10 py-5 text-start">
+                <p>Puedes aplicar filtros que harán que tu búsqueda sea mucho más precisa. Puedes seleccionar el filtro de buscar solo en tablas, querys o descripción.</p>
+                <img src="./assets/img/busquedaConRestriccion.png" class="w-75" alt="">
+            </div>
+            <div class="col-md-10 py-5 text-start">
+                <p>Al seleccionar uno de los filtros se desactivarán los demás. Cuando no se tenga seleccionado ningún filtro se realizará una busqueda global.</p>
+                <img src="./assets/img/des.png" class="w-75" alt="">
             </div>
         </div>
-
-        <div class="contenido" id="contenido"></div>
     </div>
 
     
